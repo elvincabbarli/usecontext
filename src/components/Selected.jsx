@@ -1,39 +1,45 @@
-import React, { useReducer} from "react";
+import React, { useReducer } from "react";
 
 function reducer(state, action) {
   const { type } = action;
+  let selectedValue = window.getSelection().toString();
+  let newElement = document.createElement("span");
+  newElement.innerHTML = selectedValue;
 
   switch (type) {
     case "h1": {
-      //   state.newvalue;
-      let selectedValue = window.getSelection().toString();
-      let newElement = document.createElement('span')
-      newElement.innerHTML = selectedValue
-      newElement.style.fontWeight = 'bold'
-      let textA = document.getElementById('textA')
-      selectedValue = newElement
-      textA.value = selectedValue
-      // console.log(selectedValue)
+      newElement.style.fontWeight = "bold";
+      newElement.style.fontSize = "34px";
+      selectedValue = newElement;
       return {
-        newvalue: [newElement.outerHTML]
+        newvalue: [newElement.outerHTML],
       };
     }
 
     case "h2": {
+      newElement.style.fontWeight = "bold";
+      newElement.style.fontSize = "30px";
+      selectedValue = newElement;
       return {
-        newvalue: "dfdfw",
+        newvalue: [newElement.outerHTML],
       };
     }
 
     case "bold": {
+      newElement.style.fontWeight = "bolder";
+      newElement.style.fontSize = "16px";
+      selectedValue = newElement;
       return {
-        newvalue: "dsf",
+        newvalue: [newElement.outerHTML],
       };
     }
 
     case "italic": {
+      newElement.style.fontStyle = "italic";
+      newElement.style.fontSize = "16px";
+      selectedValue = newElement;
       return {
-        newvalue: "dsf",
+        newvalue: [newElement.outerHTML],
       };
     }
 
@@ -45,26 +51,33 @@ function reducer(state, action) {
 const Selected = () => {
   const selectedText = () => {
     const selectedValue = window.getSelection().toString();
+    console.log(selectedValue)
   };
+  
 
   const [state, dispatch] = useReducer(reducer, {
-    newvalue: []
+    newvalue: [],
   });
 
-  console.log('State',state.newvalue[0])
-
   return (
-    <div className="selected-comp">
-      <div className="btns">
-        <button onClick={() => dispatch({type: 'h1'})}>H1</button>
-        <button>H2</button>
-        <button>Bold</button>
-        <button>İtalic</button>
+    <>
+      <div className="selected-comp">
+        <div className="btns">
+          <button onClick={() => dispatch({ type: "h1" })}>H1</button>{" "}
+          &nbsp;&nbsp;
+          <button onClick={() => dispatch({ type: "h2" })}>H2</button>{" "}
+          &nbsp;&nbsp;
+          <button onClick={() => dispatch({ type: "bold" })}>Bold</button>{" "}
+          &nbsp;&nbsp;
+          <button onClick={() => dispatch({ type: "italic" })}>İtalic</button>
+        </div>
+        <textarea onMouseUp={selectedText} name="" id="textA"></textarea>
       </div>
-      <textarea onMouseUp={selectedText} name="" id="textA"></textarea>
-      {/* <div>{state.newvalue[0]}</div> */}
-      <div dangerouslySetInnerHTML={{__html: state.newvalue[0]}}></div>
-    </div>
+      <div
+        style={{ justifySelf: "left" }}
+        dangerouslySetInnerHTML={{ __html: state.newvalue[0] }}
+      ></div>
+    </>
   );
 };
 
